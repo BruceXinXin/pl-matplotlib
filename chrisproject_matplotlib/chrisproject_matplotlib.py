@@ -133,13 +133,12 @@ class ChrisprojectMatplotlib(ChrisApp):
         for file in os.listdir(options.inputdir):
             if file.endswith(".nii"):
                 data = nib.load(os.path.join(options.inputdir, file))
-                plt.axis('off')
                 fig = plt.figure()
                 fig.subplots_adjust(hspace=0.4, wspace=0.4)
 
-                x_intervals = np.linspace(0, int(data.shape[0] - 1, num=4, dtype=int)
-                y_intervals = np.linspace(0, int(data.shape[1] - 1, num=4, dtype=int)
-                z_intervals = np.linspace(0, int(data.shape[2] - 1, num=4, dtype=int)
+                x_intervals = np.linspace(0, data.shape[0] - 1, num=4, dtype=int)
+                y_intervals = np.linspace(0, data.shape[1] - 1, num=4, dtype=int)
+                z_intervals = np.linspace(0, data.shape[2] - 1, num=4, dtype=int)
 
                 data_to_plot = data.get_fdata()
 
