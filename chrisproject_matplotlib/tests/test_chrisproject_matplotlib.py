@@ -1,4 +1,4 @@
-
+import os
 from unittest import TestCase
 from unittest import mock
 from chrisproject_matplotlib.chrisproject_matplotlib import ChrisprojectMatplotlib
@@ -10,6 +10,9 @@ class ChrisprojectMatplotlibTests(TestCase):
     """
     def setUp(self):
         self.app = ChrisprojectMatplotlib()
+        self.test_directory = os.path.abspath(os.path.dirname(__file__))
+        self.output_directory = self.test_directory + "/test_data/output_data"
+        os.mkdirs(self.output_directory, exist_ok=True)
 
     def test_run(self):
         """
@@ -17,8 +20,8 @@ class ChrisprojectMatplotlibTests(TestCase):
         """
         args = []
         if self.app.TYPE == 'ds':
-            args.append('inputdir') # you may want to change this inputdir mock
-        args.append('outputdir')  # you may want to change this outputdir mock
+            args.append(self.test_directory + "/test_data/input_data") # you may want to change this inputdir mock
+        args.append(self.output_directory)  # you may want to change this outputdir mock
 
         # you may want to add more of your custom defined optional arguments to test
         # your app with
@@ -30,4 +33,7 @@ class ChrisprojectMatplotlibTests(TestCase):
         self.app.run(options)
 
         # write your own assertions
-        self.assertEqual(options.outputdir, 'outputdir')
+        self.assertIn('SAG-anon.png', os.listdir(os.path.join(output_directory)))
+
+    def tearDown(self):
+        os.rmdir(self.output_directory)

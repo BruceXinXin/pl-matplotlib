@@ -67,6 +67,11 @@ jobs:
 
       - uses: actions/checkout@v2
 
+      - name: Checkout submodules
+        uses: textbook/git-checkout-submodule-action@master
+        with:
+          remote: true
+
       # QEMU is for emulating non-x86_64 platforms
       - uses: docker/setup-qemu-action@v1
       # buildx is the next-generation docker image builder
