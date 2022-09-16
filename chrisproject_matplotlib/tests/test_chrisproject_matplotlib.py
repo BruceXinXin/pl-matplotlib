@@ -12,7 +12,7 @@ class ChrisprojectMatplotlibTests(TestCase):
         self.app = ChrisprojectMatplotlib()
         self.test_directory = os.path.abspath(os.path.dirname(__file__))
         self.output_directory = self.test_directory + "/test_data/output_data"
-        os.mkdirs(self.output_directory, exist_ok=True)
+        os.makedirs(self.output_directory, exist_ok=True)
 
     def test_run(self):
         """
