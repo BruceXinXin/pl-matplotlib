@@ -24,8 +24,8 @@ Description
 -----------
 
 
-``chrisproject_matplotlib`` is a *ChRIS ds-type* application that takes in ... as ... files
-and produces ...
+``chrisproject_matplotlib`` is a *ChRIS ds-type* application that takes in data as text files
+and produces images.
 
 
 Usage
@@ -83,9 +83,9 @@ You need to specify input and output directories using the `-v` flag to `docker 
 
 .. code:: bash
 
-    docker run --rm -u $(id -u)                             \
-        -v $(pwd)/in:/incoming -v $(pwd)/out:/outgoing      \
-        fnndsc/pl-chrisproject-matplotlib chrisproject_matplotlib                        \
+    docker run --rm -u $(id -u)                                        \
+        -v $(pwd)/in:/incoming -v $(pwd)/out:/outgoing                 \
+        fnndsc/pl-chrisproject-matplotlib chrisproject_matplotlib      \
         /incoming /outgoing
 
 
@@ -107,7 +107,9 @@ Run unit tests:
 Examples
 --------
 
-Put some examples here!
+Overview of many common plotting commands in Matplotlib: https://matplotlib.org/stable/plot_types/index.html
+
+Example plots: https://matplotlib.org/stable/gallery/index.html
 
 
 .. image:: https://raw.githubusercontent.com/FNNDSC/cookiecutter-chrisapp/master/doc/assets/badge/light.png
