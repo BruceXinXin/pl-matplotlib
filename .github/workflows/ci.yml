@@ -24,6 +24,8 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
+        with:
+          submodules: recursive
       - name: build
         run: docker build -t "${GITHUB_REPOSITORY,,}" .
       - name: nose tests
@@ -66,9 +68,8 @@ jobs:
           echo "::set-output name=repo::$repo"
 
       - uses: actions/checkout@v2
-
-      - name: Checkout submodules
-        run: git submodule update --init --recursive
+        with:
+          submodules: recursive
 
       # QEMU is for emulating non-x86_64 platforms
       - uses: docker/setup-qemu-action@v1
