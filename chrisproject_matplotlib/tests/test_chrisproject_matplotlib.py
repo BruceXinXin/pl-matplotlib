@@ -33,7 +33,7 @@ class ChrisprojectMatplotlibTests(TestCase):
         self.app.run(options)
 
         # write your own assertions
-        self.assertIn('SAG-anon.png', os.listdir(os.path.join(output_directory)))
+        self.assertIn('SAG-anon.png', os.listdir(os.path.join(self.output_directory)))
 
     def tearDown(self):
         os.rmdir(self.output_directory)
