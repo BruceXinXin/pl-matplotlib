@@ -1,3 +1,4 @@
+import glob
 import os
 from unittest import TestCase
 from unittest import mock
@@ -29,11 +30,19 @@ class ChrisprojectMatplotlibTests(TestCase):
         # args.append('--custom-int')
         # args.append(10)
 
+        print("===PRE RUN - ALL ===")
+        for filename in glob.iglob(self.test_directory, recursive=True):
+            print(filename)
+
         options = self.app.parse_args(args)
         self.app.run(options)
 
+        print("===POST RUN - ALL ===")
+        for filename in glob.iglob(self.test_directory, recursive=True):
+            print(filename)
+
         # write your own assertions
-        self.assertIn('SAG-anon.png', os.listdir(os.path.join(self.output_directory)))
+        self.assertIn('SAG-anon.png', os.listdir(self.output_directory))
 
     def tearDown(self):
         os.rmdir(self.output_directory)
