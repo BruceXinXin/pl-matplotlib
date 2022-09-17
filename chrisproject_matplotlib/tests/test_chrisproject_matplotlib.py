@@ -32,13 +32,15 @@ class ChrisprojectMatplotlibTests(TestCase):
         # args.append(10)
 
         print("===PRE RUN - ALL ===")
-        print(glob.glob(self.test_directory, recursive=True))
+        print(glob.glob(self.test_directory + "/test_data/inputdata", recursive=True))
+        print(glob.glob(self.output_directory, recursive=True))
 
         options = self.app.parse_args(args)
         self.app.run(options)
 
         print("===POST RUN - ALL ===")
-        print(glob.iglob(self.test_directory, recursive=True))
+        print(glob.glob(self.test_directory + "/test_data/inputdata", recursive=True))
+        print(glob.glob(self.output_directory, recursive=True))
 
         # write your own assertions
         self.assertIn('SAG-anon.png', os.listdir(self.output_directory))
