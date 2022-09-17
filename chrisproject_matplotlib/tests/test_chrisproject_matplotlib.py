@@ -1,5 +1,6 @@
 import glob
 import os
+import shutil
 from unittest import TestCase
 from unittest import mock
 from chrisproject_matplotlib.chrisproject_matplotlib import ChrisprojectMatplotlib
@@ -31,18 +32,16 @@ class ChrisprojectMatplotlibTests(TestCase):
         # args.append(10)
 
         print("===PRE RUN - ALL ===")
-        for filename in glob.iglob(self.test_directory, recursive=True):
-            print(filename)
+        print(glob.glob(self.test_directory, recursive=True))
 
         options = self.app.parse_args(args)
         self.app.run(options)
 
         print("===POST RUN - ALL ===")
-        for filename in glob.iglob(self.test_directory, recursive=True):
-            print(filename)
+        print(glob.iglob(self.test_directory, recursive=True))
 
         # write your own assertions
         self.assertIn('SAG-anon.png', os.listdir(self.output_directory))
 
     def tearDown(self):
-        os.rmdir(self.output_directory)
+        shutil.rmtree(self.output_directory)
