@@ -78,7 +78,7 @@ Getting inline help is:
 Run
 ~~~
 
-You need to specify input and output directories using the `-v` flag to `docker run`.
+You need to specify input (containing NII files) and output directories (to which PNGs of the plots would be written to) using the `-v` flag to `docker run`.
 
 
 .. code:: bash

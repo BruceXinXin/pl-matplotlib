@@ -8,9 +8,11 @@
 #                        dev@babyMRI.org
 #
 
+import os
 from chrisapp.base import ChrisApp
 import matplotlib.pyplot as plt
 import nibabel as nib
+import numpy as np
 
 Gstr_title = r"""
       _          _                     _           _                     _         _       _   _ _ _     
@@ -127,6 +129,38 @@ class ChrisprojectMatplotlib(ChrisApp):
         """
         print(Gstr_title)
         print('Version: %s' % self.get_version())
+
+        for file in os.listdir(options.inputdir):
+            if file.endswith(".nii"):
+                data = nib.load(os.path.join(options.inputdir, file))
+                fig = plt.figure()
+                fig.subplots_adjust(hspace=0.4, wspace=0.4)
+
+                x_intervals = np.linspace(0, data.shape[0] - 1, num=4, dtype=int)
+                y_intervals = np.linspace(0, data.shape[1] - 1, num=4, dtype=int)
+                z_intervals = np.linspace(0, data.shape[2] - 1, num=4, dtype=int)
+
+                data_to_plot = data.get_fdata()
+
+                counter = 0
+                for i in range(1, 5):
+                    fig.add_subplot(3, 4, i).set_axis_off()
+                    plt.imshow(data_to_plot[x_intervals[counter], :, :])
+                    counter += 1
+
+                counter = 0
+                for i in range(5, 9):
+                    fig.add_subplot(3, 4, i).set_axis_off()
+                    plt.imshow(data_to_plot[:, y_intervals[counter], :])
+                    counter += 1
+
+                counter = 0
+                for i in range(9, 13):
+                    fig.add_subplot(3, 4, i).set_axis_off()
+                    plt.imshow(data_to_plot[:, :, z_intervals[counter]])
+                    counter += 1
+
+                fig.savefig(os.path.join(options.outputdir, os.path.splitext(file)[0] + ".png"))
 
     def show_man_page(self):
         """
