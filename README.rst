@@ -24,8 +24,7 @@ Description
 -----------
 
 
-``chrisproject_matplotlib`` is a *ChRIS ds-type* application that takes in data as text files
-and produces images.
+``chrisproject_matplotlib`` is a *ChRIS ds-type* application that takes in nii data as input and generate slices on 3 dimensions (x,y,z) according to the user options. Users can specify the number of slices in each direction and also decide whether to rotate these sliced figures by specific degrees.
 
 
 Usage
