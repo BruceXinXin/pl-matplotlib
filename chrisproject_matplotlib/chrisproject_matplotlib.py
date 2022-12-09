@@ -201,7 +201,7 @@ class ChrisprojectMatplotlib(ChrisApp):
                 counter = 0
                 for i in range(1, options.xslices + 1):
                     fig.add_subplot(3, options.xslices, i).set_axis_off()
-                    rotated_img = ndimage.rotate(data_to_plot[x_intervals[counter],:,:], options.rotatex, reshape=True)
+                    rotated_img = ndimage.rotate(data_to_plot[x_intervals[counter],:,:], options.rotatex, reshape=True, mode = 'nearest')
                     plt.imshow(rotated_img)
                     counter += 1
 
@@ -209,7 +209,7 @@ class ChrisprojectMatplotlib(ChrisApp):
                 offset = options.yslices - options.xslices
                 for i in range(options.xslices + 1, options.xslices + options.yslices + 1):
                     fig.add_subplot(3, options.yslices, i + offset).set_axis_off()
-                    rotated_img = ndimage.rotate(data_to_plot[:, y_intervals[counter], :], options.rotatey, reshape=True)
+                    rotated_img = ndimage.rotate(data_to_plot[:, y_intervals[counter], :], options.rotatey, reshape=True, mode = 'nearest')
                     plt.imshow(rotated_img)
                     counter += 1
 
@@ -217,7 +217,7 @@ class ChrisprojectMatplotlib(ChrisApp):
                 offset = options.zslices * 2 - options.xslices - options.yslices
                 for i in range(options.xslices + options.yslices + 1, options.xslices + options.yslices + options.zslices + 1):
                     fig.add_subplot(3, options.zslices, i + offset).set_axis_off()
-                    rotated_img = ndimage.rotate(data_to_plot[:,:,z_intervals[counter]], options.rotatez, reshape=True)
+                    rotated_img = ndimage.rotate(data_to_plot[:,:,z_intervals[counter]], options.rotatez, reshape=True, mode = 'nearest')
                     plt.imshow(rotated_img)
                     counter += 1
 
