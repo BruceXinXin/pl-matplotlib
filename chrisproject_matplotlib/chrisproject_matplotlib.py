@@ -10,6 +10,7 @@
 
 import os
 from chrisapp.base import ChrisApp
+from scipy import ndimage
 import matplotlib.pyplot as plt
 import nibabel as nib
 import numpy as np
@@ -122,6 +123,61 @@ class ChrisprojectMatplotlib(ChrisApp):
         Define the CLI arguments accepted by this plugin app.
         Use self.add_argument to specify a new app argument.
         """
+        self.add_argument(
+            "-x",
+            "--xslices",
+            dest="xslices",
+            default="5",
+            optional=True,
+            type=int,
+            help="Number of slices on the x axis",
+        )
+        self.add_argument(
+            "-y",
+            "--yslices",
+            dest="yslices",
+            default="5",
+            optional=True,
+            type=int,
+            help="Number of slices on the y axis",
+        )
+        self.add_argument(
+            "-z",
+            "--zslices",
+            dest="zslices",
+            default="5",
+            optional=True,
+            type=int,
+            help="Number of slices on the z axis",
+        )
+        self.add_argument(
+            "-rx",
+            "--rotatex",
+            dest="rotatex",
+            default="0",
+            optional=True,
+            type=int,
+            help="Rotate how many degrees on the x axis",
+        )
+        self.add_argument(
+            "-ry",
+            "--rotatey",
+            dest="rotatey",
+            default="0",
+            optional=True,
+            type=int,
+            help="Rotate how many degrees on the y axis",
+        )
+        self.add_argument(
+            "-rz",
+            "--rotatez",
+            dest="rotatez",
+            default="0",
+            optional=True,
+            type=int,
+            help="Rotate how many degrees on the z axis",
+        )
+        
 
     def run(self, options):
         """
@@ -136,28 +192,33 @@ class ChrisprojectMatplotlib(ChrisApp):
                 fig = plt.figure()
                 fig.subplots_adjust(hspace=0.4, wspace=0.4)
 
-                x_intervals = np.linspace(0, data.shape[0] - 1, num=4, dtype=int)
-                y_intervals = np.linspace(0, data.shape[1] - 1, num=4, dtype=int)
-                z_intervals = np.linspace(0, data.shape[2] - 1, num=4, dtype=int)
+                x_intervals = np.linspace(0, data.shape[0] - 1, num=options.xslices, dtype=int)
+                y_intervals = np.linspace(0, data.shape[1] - 1, num=options.yslices, dtype=int)
+                z_intervals = np.linspace(0, data.shape[2] - 1, num=options.zslices, dtype=int)
 
                 data_to_plot = data.get_fdata()
 
                 counter = 0
-                for i in range(1, 5):
-                    fig.add_subplot(3, 4, i).set_axis_off()
-                    plt.imshow(data_to_plot[x_intervals[counter], :, :])
+                for i in range(1, options.xslices + 1):
+                    fig.add_subplot(3, options.xslices, i).set_axis_off()
+                    rotated_img = ndimage.rotate(data_to_plot[x_intervals[counter],:,:], options.rotatex, reshape=True)
+                    plt.imshow(rotated_img)
                     counter += 1
 
                 counter = 0
-                for i in range(5, 9):
-                    fig.add_subplot(3, 4, i).set_axis_off()
-                    plt.imshow(data_to_plot[:, y_intervals[counter], :])
+                offset = options.yslices - options.xslices
+                for i in range(options.xslices + 1, options.xslices + options.yslices + 1):
+                    fig.add_subplot(3, options.yslices, i + offset).set_axis_off()
+                    rotated_img = ndimage.rotate(data_to_plot[:, y_intervals[counter], :], options.rotatey, reshape=True)
+                    plt.imshow(rotated_img)
                     counter += 1
 
                 counter = 0
-                for i in range(9, 13):
-                    fig.add_subplot(3, 4, i).set_axis_off()
-                    plt.imshow(data_to_plot[:, :, z_intervals[counter]])
+                offset = options.zslices * 2 - options.xslices - options.yslices
+                for i in range(options.xslices + options.yslices + 1, options.xslices + options.yslices + options.zslices + 1):
+                    fig.add_subplot(3, options.zslices, i + offset).set_axis_off()
+                    rotated_img = ndimage.rotate(data_to_plot[:,:,z_intervals[counter]], options.rotatez, reshape=True)
+                    plt.imshow(rotated_img)
                     counter += 1
 
                 fig.savefig(os.path.join(options.outputdir, os.path.splitext(file)[0] + ".png"))
