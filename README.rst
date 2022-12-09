@@ -66,6 +66,12 @@ Arguments
     
     [--version]
     If specified, print version number and exit. 
+    
+    [-x] [--xslices] / [-y] [--yslices] / [-z] [--zslices]
+    If specified, denotes the number of slices in the x/y/z axis. Default is 5.
+    
+    [-rx] [--rotatex] / [-ry] [--rotatey] / [-rz] [--rotatez]
+    If specified, denotes the degree that all x/y/z slices figures needs to be rotated anti-clockwise. Default is 0.
 
 
 Getting inline help is:
