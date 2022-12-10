@@ -93,17 +93,17 @@ class ChrisprojectMatplotlib(ChrisApp):
     """
     Create static, animated, and interactive visualizations with Matplotlib for ChRIS
     """
-    PACKAGE                 = __package__
-    TITLE                   = 'A ChRIS plugin app for Matplotlib'
-    CATEGORY                = ''
-    TYPE                    = 'ds'
-    ICON                    = ''   # url of an icon image
-    MIN_NUMBER_OF_WORKERS   = 1    # Override with the minimum number of workers as int
-    MAX_NUMBER_OF_WORKERS   = 1    # Override with the maximum number of workers as int
-    MIN_CPU_LIMIT           = 2000 # Override with millicore value as int (1000 millicores == 1 CPU core)
-    MIN_MEMORY_LIMIT        = 8000  # Override with memory MegaByte (MB) limit as int
-    MIN_GPU_LIMIT           = 0    # Override with the minimum number of GPUs as int
-    MAX_GPU_LIMIT           = 0    # Override with the maximum number of GPUs as int
+    PACKAGE = __package__
+    TITLE = 'A ChRIS plugin app for Matplotlib'
+    CATEGORY = ''
+    TYPE = 'ds'
+    ICON = ''  # url of an icon image
+    MIN_NUMBER_OF_WORKERS = 1  # Override with the minimum number of workers as int
+    MAX_NUMBER_OF_WORKERS = 1  # Override with the maximum number of workers as int
+    MIN_CPU_LIMIT = 2000  # Override with millicore value as int (1000 millicores == 1 CPU core)
+    MIN_MEMORY_LIMIT = 8000  # Override with memory MegaByte (MB) limit as int
+    MIN_GPU_LIMIT = 0  # Override with the minimum number of GPUs as int
+    MAX_GPU_LIMIT = 0  # Override with the maximum number of GPUs as int
 
     # Use this dictionary structure to provide key-value output descriptive information
     # that may be useful for the next downstream plugin. For example:
@@ -177,7 +177,15 @@ class ChrisprojectMatplotlib(ChrisApp):
             type=int,
             help="Rotate how many degrees on the z axis",
         )
-        
+        self.add_argument(
+            "-s",
+            "--size",
+            dest="size",
+            default="NA",
+            optional=True,
+            type=str,
+            help="The pixel size of image, like 640,480",
+        )
 
     def run(self, options):
         """
@@ -189,7 +197,11 @@ class ChrisprojectMatplotlib(ChrisApp):
         for file in os.listdir(options.inputdir):
             if file.endswith(".nii"):
                 data = nib.load(os.path.join(options.inputdir, file))
-                fig = plt.figure()
+                if options.size == "NA":
+                    fig = plt.figure()
+                else:
+                    _x, _y = options.size.split(',')
+                    fig = plt.figure(figsize=(_x, _y))
                 fig.subplots_adjust(hspace=0.4, wspace=0.4)
 
                 x_intervals = np.linspace(0, data.shape[0] - 1, num=options.xslices, dtype=int)
@@ -201,7 +213,8 @@ class ChrisprojectMatplotlib(ChrisApp):
                 counter = 0
                 for i in range(1, options.xslices + 1):
                     fig.add_subplot(3, options.xslices, i).set_axis_off()
-                    rotated_img = ndimage.rotate(data_to_plot[x_intervals[counter],:,:], options.rotatex, reshape=True, mode = 'nearest')
+                    rotated_img = ndimage.rotate(data_to_plot[x_intervals[counter], :, :], options.rotatex,
+                                                 reshape=True, mode='nearest')
                     plt.imshow(rotated_img)
                     counter += 1
 
@@ -209,15 +222,18 @@ class ChrisprojectMatplotlib(ChrisApp):
                 offset = options.yslices - options.xslices
                 for i in range(options.xslices + 1, options.xslices + options.yslices + 1):
                     fig.add_subplot(3, options.yslices, i + offset).set_axis_off()
-                    rotated_img = ndimage.rotate(data_to_plot[:, y_intervals[counter], :], options.rotatey, reshape=True, mode = 'nearest')
+                    rotated_img = ndimage.rotate(data_to_plot[:, y_intervals[counter], :], options.rotatey,
+                                                 reshape=True, mode='nearest')
                     plt.imshow(rotated_img)
                     counter += 1
 
                 counter = 0
                 offset = options.zslices * 2 - options.xslices - options.yslices
-                for i in range(options.xslices + options.yslices + 1, options.xslices + options.yslices + options.zslices + 1):
+                for i in range(options.xslices + options.yslices + 1,
+                               options.xslices + options.yslices + options.zslices + 1):
                     fig.add_subplot(3, options.zslices, i + offset).set_axis_off()
-                    rotated_img = ndimage.rotate(data_to_plot[:,:,z_intervals[counter]], options.rotatez, reshape=True, mode = 'nearest')
+                    rotated_img = ndimage.rotate(data_to_plot[:, :, z_intervals[counter]], options.rotatez,
+                                                 reshape=True, mode='nearest')
                     plt.imshow(rotated_img)
                     counter += 1
 

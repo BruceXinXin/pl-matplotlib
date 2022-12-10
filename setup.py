@@ -13,7 +13,7 @@ setup(
     author_email     = 'rohan@rohanarora.name',
     url              = 'http://wiki',
     packages         = ['chrisproject_matplotlib'],
-    install_requires = ['chrisapp', 'matplotlib', 'numpy', 'nibabel'],
+    install_requires = ['chrisapp', 'matplotlib', 'numpy', 'nibabel', 'scipy'],
     test_suite       = 'nose.collector',
     tests_require    = ['nose'],
     license          = 'MIT',
