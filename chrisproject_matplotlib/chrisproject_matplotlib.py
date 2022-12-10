@@ -201,7 +201,7 @@ class ChrisprojectMatplotlib(ChrisApp):
                     fig = plt.figure()
                 else:
                     _x, _y = options.size.split(',')
-                    fig = plt.figure(figsize=(_x, _y))
+                    fig = plt.figure(figsize=(int(_x) / 100, int(_y) / 100))
                 fig.subplots_adjust(hspace=0.4, wspace=0.4)
 
                 x_intervals = np.linspace(0, data.shape[0] - 1, num=options.xslices, dtype=int)
