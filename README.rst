@@ -38,6 +38,9 @@ Usage
         [--savejson <DIR>]
         [-v|--verbosity <level>]
         [--version]
+        [-x|--xslices] [-y|--yslices] [-z|--zslices]
+        [-rx|--rotatex] [-ry|--rotatey] [-rz|--rotatez]
+        [-s|--size]
         <inputDir> <outputDir>
 
 
@@ -71,7 +74,10 @@ Arguments
     If specified, denotes the number of slices in the x/y/z axis. Default is 5.
     
     [-rx] [--rotatex] / [-ry] [--rotatey] / [-rz] [--rotatez]
-    If specified, denotes the degree that all x/y/z slices figures needs to be rotated anti-clockwise. Default is 0.
+    If specified, denotes the degree that all x/y/z slices figures needs to be rotated counter-clockwise. Default is 0.
+
+    [-s] [--size]
+    If specified, denotes the size of the picture. Default is 640,480.
 
 
 Getting inline help is:
@@ -90,7 +96,7 @@ You need to specify input (containing NII files) and output directories (to whic
 
     docker run --rm -u $(id -u)                                        \
         -v $(pwd)/in:/incoming -v $(pwd)/out:/outgoing                 \
-        fnndsc/pl-chrisproject-matplotlib chrisproject_matplotlib      \
+        local/pl-chrisproject-matplotlib chrisproject_matplotlib      \
         /incoming /outgoing
 
 
