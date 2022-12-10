@@ -184,7 +184,7 @@ class ChrisprojectMatplotlib(ChrisApp):
             default="NA",
             optional=True,
             type=str,
-            help="The pixel size of image, like 640,480",
+            help="The pixel size of image, like 640,480.",
         )
 
     def run(self, options):
