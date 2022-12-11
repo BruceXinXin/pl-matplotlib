@@ -99,7 +99,6 @@ You need to specify input (containing NII files) and output directories (to whic
         local/pl-chrisproject-matplotlib chrisproject_matplotlib      \
         /incoming /outgoing
 
-
 Development
 -----------
 
@@ -122,6 +121,17 @@ Overview of many common plotting commands in Matplotlib: https://matplotlib.org/
 
 Example plots: https://matplotlib.org/stable/gallery/index.html
 
+If you use parameter like this
+
+.. code:: bash
+
+    docker run --rm -u $(id -u)             \
+    -v $(pwd)/in:/incoming -v $(pwd)/out:/outgoing \
+    local/pl-matplotlib chrisproject_matplotlib    \
+    /incoming /outgoing -x 5 -y 4 -z 3 -s 1000,800 -rz -90 -ry -90
+
+Then the result is like this
+.. image:: img/SAG-anon.png
 
 .. image:: https://raw.githubusercontent.com/FNNDSC/cookiecutter-chrisapp/master/doc/assets/badge/light.png
     :target: https://chrisstore.co
