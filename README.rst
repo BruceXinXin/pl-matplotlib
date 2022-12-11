@@ -131,7 +131,9 @@ If you use parameter like this
     /incoming /outgoing -x 5 -y 4 -z 3 -s 1000,800 -rz -90 -ry -90
 
 Then the result is like this
+
 .. image:: img/SAG-anon.png
+
 
 .. image:: https://raw.githubusercontent.com/FNNDSC/cookiecutter-chrisapp/master/doc/assets/badge/light.png
     :target: https://chrisstore.co
