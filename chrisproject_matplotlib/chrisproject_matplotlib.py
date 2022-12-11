@@ -204,42 +204,50 @@ class ChrisprojectMatplotlib(ChrisApp):
                     fig = plt.figure(figsize=(int(_x) / 100, int(_y) / 100))
                 fig.subplots_adjust(hspace=0.4, wspace=0.4)
 
-                x_intervals = np.linspace(0, data.shape[0] - 1, num=options.xslices, dtype=int)
-                y_intervals = np.linspace(0, data.shape[1] - 1, num=options.yslices, dtype=int)
-                z_intervals = np.linspace(0, data.shape[2] - 1, num=options.zslices, dtype=int)
+                x_intervals = np.linspace(1, data.shape[0], num=options.xslices + 2, dtype=int)
+                y_intervals = np.linspace(1, data.shape[1], num=options.yslices + 2, dtype=int)
+                z_intervals = np.linspace(1, data.shape[2], num=options.zslices + 2, dtype=int)
+
+                print(data.shape[0], data.shape[1], data.shape[2])
 
                 data_to_plot = data.get_fdata()
 
-                counter = 0
+                counter = 1
                 for i in range(1, options.xslices + 1):
                     ax = fig.add_subplot(3, options.xslices, i)
                     ax.set_axis_off()
-                    rotated_img = ndimage.rotate(data_to_plot[x_intervals[counter], :, :], options.rotatex,
+                    rotated_img = ndimage.rotate(data_to_plot[x_intervals[counter] - 1, :, :], options.rotatex,
                                                  reshape=True, mode='nearest')
                     plt.imshow(rotated_img)
-                    counter += 1
-                    ax.set_title("%d/%d@%d" % (i, options.xslices, options.rotatex))
 
-                counter = 0
+                    ax.set_title("%d/%d ∠%d°" % (x_intervals[counter], data.shape[0], options.rotatex))
+
+                    counter += 1
+
+                counter = 1
                 for i in range(options.xslices + 1, options.xslices + options.yslices + 1):
                     ax = fig.add_subplot(3, options.yslices, i + options.yslices - options.xslices)
                     ax.set_axis_off()
-                    rotated_img = ndimage.rotate(data_to_plot[:, y_intervals[counter], :], options.rotatey,
+                    rotated_img = ndimage.rotate(data_to_plot[:, y_intervals[counter] - 1, :], options.rotatey,
                                                  reshape=True, mode='nearest')
                     plt.imshow(rotated_img)
-                    counter += 1
-                    ax.set_title("%d/%d@%d" % (i - options.xslices, options.yslices, options.rotatey))
 
-                counter = 0
+                    ax.set_title("%d/%d ∠%d°" % (y_intervals[counter], data.shape[1], options.rotatey))
+
+                    counter += 1
+
+                counter = 1
                 for i in range(options.xslices + options.yslices + 1,
                                options.xslices + options.yslices + options.zslices + 1):
                     ax = fig.add_subplot(3, options.zslices, i + options.zslices * 2 - options.xslices - options.yslices)
                     ax.set_axis_off()
-                    rotated_img = ndimage.rotate(data_to_plot[:, :, z_intervals[counter]], options.rotatez,
+                    rotated_img = ndimage.rotate(data_to_plot[:, :, z_intervals[counter] - 1], options.rotatez,
                                                  reshape=True, mode='nearest')
                     plt.imshow(rotated_img)
+
+                    ax.set_title("%d/%d ∠%d°" % (z_intervals[counter], data.shape[2], options.rotatez))
+
                     counter += 1
-                    ax.set_title("%d/%d@%d" % (i - options.xslices - options.yslices, options.zslices, options.rotatez))
 
                 fig.savefig(os.path.join(options.outputdir, os.path.splitext(file)[0] + ".png"))
 

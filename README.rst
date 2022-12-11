@@ -121,7 +121,7 @@ Overview of many common plotting commands in Matplotlib: https://matplotlib.org/
 
 Example plots: https://matplotlib.org/stable/gallery/index.html
 
-If you use parameter like this
+If you use parameter like this:
 
 .. code:: bash
 
@@ -130,7 +130,8 @@ If you use parameter like this
     local/pl-matplotlib chrisproject_matplotlib    \
     /incoming /outgoing -x 5 -y 4 -z 3 -s 1000,800 -rz -90 -ry -90
 
-Then the result is like this
+
+Then the result is like this:
 
 .. image:: img/SAG-anon.png
 
